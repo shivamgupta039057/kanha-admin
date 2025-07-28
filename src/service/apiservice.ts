@@ -2,10 +2,10 @@
 import axios, { AxiosResponse, AxiosError } from "axios";
 import toast from "react-hot-toast";
 // const baseurl: string = "http://159.89.164.11:7677/admin/v1"
-const baseurl: string = "http://localhost:5000"
-export const imgBaseUrl : string = "http://localhost:5000"
-// const baseurl: string = "http://159.89.174.140:5000"
-// export const imgBaseUrl : string = "http://159.89.174.140:5000"
+// const baseurl: string = "http://localhost:5000"
+// export const imgBaseUrl : string = "http://localhost:5000"
+const baseurl: string = "http://159.89.174.140:5000"
+export const imgBaseUrl : string = "http://159.89.174.140:5000"
 
 
 interface ApiResponse {
