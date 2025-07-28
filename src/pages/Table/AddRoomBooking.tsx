@@ -1,130 +1,96 @@
-import { Chip, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, MenuItem, Select } from '@mui/material'
+import { Dialog, DialogActions, DialogContent, DialogTitle, IconButton } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close';
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
-import { Apiservice } from '../../service/apiservice.ts';
-import apiEndPoints from '../../constant/apiendpoints.ts';
-import localStorageKeys from '../../constant/localStorageKeys.ts';
+import * as Yup from 'yup';
 import toast from 'react-hot-toast';
-import { getValidationSchema } from './TableBookingSchema.ts';
-import { API_ADD_BANQUET, API_ADD_BOOKING, API_ADD_GALLERY, API_ADD_MENU, API_BANQUET_UPDATE, API_ROOM_ADD, API_ROOM_UPDATE, API_UPDATE_BOOKING, API_UPDATE_GALLERY, API_UPDATE_MENU } from '../../utils/APIConstant.ts';
 import { useSelector } from 'react-redux';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { Apiservice } from '../../service/apiservice';
+import { API_ADD_BANQUET, API_ADD_ROOM_BOOK, API_BOOK_BANQUET, API_UPDATE_ROOM_BOOK } from '../../utils/APIConstant';
 
 interface ModalProps {
   handleToggelModal: () => void;
-  handleClearRow: () => void;
-  openModal: boolean;
-  updateRow: {
+  UpdateBookingRow : {
     _id: string,
-    image: string | null,
-    medicineName: string,
-    medicineManufacturerDate: string,
-    medicineExpiryDate: string,
-    medicineStock: string,
-    createdAt: string,
-    updatedAt: string
-  } | undefined
-
-  preOrderData : {
-    _id : string,
-    name : string
-  }
+  },
+  openModal: boolean;
 }
 
-const AddTableBookingModal: React.FC<ModalProps> = ({ handleToggelModal, openModal, updateRow, handleClearRow , preOrderData }) => {
-  console.log("preOrderDatapreOrderData" , updateRow);
-  
+const validationSchema = Yup.object().shape({
+  guestName: Yup.string().required('Guest name is required'),
+  phone: Yup.string().required('Phone is required'),
+  email: Yup.string().email('Invalid email address').required('Email is required'),
+  eventDate: Yup.string().required('Event date is required'),
+  slot: Yup.string().required('Slot is required'),
+  startTime: Yup.string().required('Start time is required'),
+  endTime: Yup.string().required('End time is required'),
+  totalAmount: Yup.number().typeError('Total amount must be a number').required('Total amount is required'),
+  paymentMethod: Yup.string().required('Payment method is required'),
+});
+
+const AddRoomsBooking: React.FC<ModalProps> = ({ handleToggelModal, openModal , UpdateBookingRow }) => {
   const queryClient = useQueryClient();
   const token = useSelector((state: any) => state.auth.accessToken);
-  const [imagePreview, setImagePreview] = useState<string | null>(null);
-
-  // React Query mutation for adding a room
   const addRoomMutation = useMutation({
-    mutationFn: async (data: { name: string; description: string }) => {
-      return await Apiservice.postAuth(`${API_ADD_BOOKING}`, data, token);
-    },
-    onSuccess: (res: any) => {
-      if (res && res.data.status) {
-        queryClient.invalidateQueries({ queryKey: ["get-table-booking-list"] });
-        toast.success(res?.data?.message);
-        handleToggelModal();
-        handleClearRow();
-      } else {
-        toast.error(res?.data?.message || "Failed to add category.");
-      }
-    },
-    onError: (error: any) => {
-      toast.error(error?.message || "An error occurred while adding the category.");
-    },
-  });
-
-  // React Query mutation for editing a category
-  const editRoomMutation = useMutation({
-    mutationFn: async ({ id, data }: { id: string, data: { name: string; description: string } }) => {
-      return await Apiservice.postAuth(`${API_UPDATE_BOOKING}/${id}`, data, token);
-    },
-    onSuccess: (res: any) => {  
-      if (res && res.data.status) {
-        // Refetch the category data after a successful update
-        queryClient.invalidateQueries({ queryKey: ["get-table-booking-list"] });
-        toast.success("Category updated successfully");
-        handleToggelModal();
-        handleClearRow();
-      } else {
-        toast.error(res?.data?.message || "Failed to update category.");
-      }
-    },
-    onError: (error: any) => {
-      console.error("Error updating category:", error);
-      toast.error(error?.message || "An error occurred while updating the category.");
-    },
-  });
-
-  const handleSubmit = async (values: any, resetForm: any) => {
-    console.log("valuesvaluesvalues" , values);
-    
+      mutationFn: async (formData: FormData) => {
+        console.log("dddddFormDataFormDataFormData" , FormData);
+        
+        return await Apiservice.postAuth(`${API_BOOK_BANQUET}/${UpdateBookingRow?._id}`, formData, token);
+      },
+      onSuccess: (res: any) => {
+        if (res && res.data.status) {
+          queryClient.invalidateQueries({ queryKey: ["get-banquet-list"] });
+          toast.success("Room added successfully");
+          handleToggelModal();
+          
+        } else {
+          toast.error(res?.data?.message || "Failed to add room.");
+        }
+      },
+      onError: (error: any) => {
+        toast.error(error?.message || "An error occurred while adding the room.");
+      },
+    });
+  
+   const handleSubmit = async (values: any, resetForm: any) => {
     try {
       if (!token) {
         throw new Error("Token is missing.");
       }
-      const data = {
-        guestName: values.guestName,
-        phone: values.phone,
-        date: values.date,
-        timeSlot: values.timeSlot,
-        numberOfGuests: values.numberOfGuests,
-        tableNumber: values.tableNumber,
-        specialRequest : values.specialRequest
-        // preOrderedItems: values.preOrderedItems
-      };
 
-      if (updateRow) {
-        // Edit Category
-        editRoomMutation.mutate({ id: updateRow._id, data });
-      } else {
-        // Add Category
-        addRoomMutation.mutate(data);
+      const param = {
+        guestName : values.guestName,
+        phone : values.phone,
+        eventDate : values.eventDate,
+        slot : values.slot,
+        endTime : values.endTime,
+        checkIn : values.checkIn,
+        checkOut : values.checkOut,
+        totalAmount : values.totalAmount,
+        paymentMode : "offline",
+        paymentMethod : values.paymentMethod,
+        startTime : values.startTime,
+        email : values.email
       }
+
+      addRoomMutation.mutate(param);
       resetForm();
     } catch (error) {
-      console.error(error);
+      console.log(error);
       toast.error("An error occurred while submitting the form.");
     }
   };
 
-
-
-  
   return (
     <Dialog open={openModal} fullWidth={true} maxWidth={'md'}>
       <DialogTitle>
-        {updateRow ? "Edit" : "Add"} Room
+        Add Table Booking
       </DialogTitle>
       <IconButton
         onClick={() => {
           handleToggelModal()
-          handleClearRow()
+          
         }}
         aria-label="close"
         sx={{
@@ -138,23 +104,17 @@ const AddTableBookingModal: React.FC<ModalProps> = ({ handleToggelModal, openMod
       </IconButton>
 
       <DialogContent>
-        <Formik
+      <Formik
           enableReinitialize
           initialValues={{
-            guestName: updateRow ? updateRow.guestName || "" : "",
-            phone: updateRow ? updateRow.phone || "" : "",
-            date: updateRow ? updateRow.date || "" : "",
-            timeSlot: updateRow ? updateRow.timeSlot || "" : "",
-            numberOfGuests: updateRow ? updateRow.numberOfGuests || "" : "",
-            tableNumber: updateRow ? updateRow.tableNumber || "" : "",
-            specialRequest: updateRow ? updateRow.specialRequest || "" : "",
-            preOrderedItems: updateRow
-              ? Array.isArray(updateRow.preOrderedItems)
-                ? updateRow.preOrderedItems
-                : updateRow.preOrderedItems
-                ? [updateRow.preOrderedItems]
-                : []
-              : [],
+            guestName: "",
+            phone: "",
+            date: "",
+            timeSlot: "",
+            numberOfGuests: "",
+            tableNumber: "",
+            specialRequest: "",
+            preOrderedItems: [],
           }}
           // validationSchema={getValidationSchema(updateRow)}
           onSubmit={(values, { resetForm }) => {
@@ -169,7 +129,7 @@ const AddTableBookingModal: React.FC<ModalProps> = ({ handleToggelModal, openMod
             };
             handleSubmit(submitValues, resetForm);
           }}
-          context={{ updateRow }}
+          
         >
           {({ setFieldValue, values }) => (
             <Form>
@@ -332,7 +292,7 @@ const AddTableBookingModal: React.FC<ModalProps> = ({ handleToggelModal, openMod
                   type="submit"
                   className="flex w-full mt-5 mx-auto max-w-[350px] justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
                 >
-                  {updateRow ? "Edit" : "Add"} Table Booking
+                  Add Table Booking
                 </button>
               </DialogActions>
             </Form>
@@ -343,4 +303,4 @@ const AddTableBookingModal: React.FC<ModalProps> = ({ handleToggelModal, openMod
   )
 }
 
-export default AddTableBookingModal
+export default AddRoomsBooking

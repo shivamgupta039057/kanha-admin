@@ -15,14 +15,12 @@ import toast from 'react-hot-toast';
 import { MRT_SortingState } from 'material-react-table';
 import { MRT_ColumnDef } from 'material-react-table';
 import { ROUTES_CONST } from '../../constant/routeConstant';
-import { useNavigate, useParams } from 'react-router-dom';
-import AddRoomsRegistration from './AddTableBookingModal';
+import { useNavigate } from 'react-router-dom';
+import AddRoomsRegistration from './AddRoomsRegistration';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { API_BANQUET_DELETE, API_BANQUET_GET, API_DELETE_GALLERY, API_DELETE_MENU, API_GET_ALL_MENU, API_GET_BOOKING, API_GET_GALLERY, API_GET_MENU, API_ROOM_DELETE, API_ROOM_GET } from '../../utils/APIConstant';
+import { API_BANQUET_DELETE, API_BANQUET_GET, API_DELETE_TABLE, API_GET_TABLE, API_ROOM_DELETE, API_ROOM_GET } from '../../utils/APIConstant';
 import { useSelector } from 'react-redux';
 import AddRoomsBooking from './AddRoomBooking';
-import AddMenuModal from './AddTableBookingModal';
-import moment from 'moment';
 
 
 interface UpdateRow {
@@ -33,46 +31,30 @@ interface UpdateRow {
   updatedAt: string;
 }
 
-const TableBookingPage: React.FC = () => {
+const Table: React.FC = () => {
   const [pageState, setPageState] = useState({ pageIndex: 0, pageSize: 10 });
   const [totalPages, setTotalPages] = useState<number>(1);
   const [openModal, setOpenModal] = useState<boolean>(false);
-  const [AddBookingModal , setAddBookingModal] = useState<boolean>(false);
+  const [AddBookingModal, setAddBookingModal] = useState<boolean>(false);
   const [updateRow, setUpdateRow] = useState<UpdateRow | undefined>(undefined);
   const [UpdateBookingRow, setUpdateBookingRow] = useState<UpdateRow | undefined>(undefined);
   const [sorting, setSorting] = useState<MRT_SortingState>([]);
   const [data, setData] = useState<object[]>([]);
-  const [preOrderData, setPreOrderData] = useState<object[]>([]);
-
   const [searchTerms, setSearchTerm] = useState<string>("")
   // const token = localStorage.getItem(TOKEN_NAME);
   const token = useSelector((state: any) => state.auth.accessToken);
   const queryClient = useQueryClient();
   const navigate = useNavigate();
-  const param = useParams();
-console.log("openModalopenModalopenModal" , openModal);
+  console.log("openModalopenModalopenModal", openModal);
 
   const { data: roomData } = useQuery({
-    queryKey: ["get-table-booking-list"],
+    queryKey: ["get-table-list"],
     queryFn: () =>
-      Apiservice.getAuth(`${API_GET_BOOKING}`, token ?? ""),
-    staleTime: 5 * 60 * 1000,
-  });
-
-  const { data: preOrderMenu } = useQuery({
-    queryKey: ["get-pre-order-menu"],
-    queryFn: () =>
-      Apiservice.getAuth(`${API_GET_ALL_MENU}`, token ?? ""),
+      Apiservice.getAuth(`${API_GET_TABLE}`, token ?? ""),
     staleTime: 5 * 60 * 1000,
   });
 
   console.log("roomDataroomData", roomData);
-  useEffect(() => {
-    if (preOrderMenu) {
-      setPreOrderData(preOrderMenu.data.data);
-    }
-  }, [preOrderMenu]);
-
   useEffect(() => {
     if (roomData) {
       setData(roomData.data.data);
@@ -83,11 +65,11 @@ console.log("openModalopenModalopenModal" , openModal);
   // here is the delete function 
   const deleteRoomMutation = useMutation({
     mutationFn: async (id: string) => {
-      return await Apiservice.postAuth(`${API_DELETE_MENU}/${id}`, {}, token);
+      return await Apiservice.postAuth(`${API_DELETE_TABLE}/${id}`, {}, token);
     },
     onSuccess: (res: any) => {
       if (res && res.data.status) {
-        queryClient.invalidateQueries({ queryKey: ["get-menu-list"] });
+        queryClient.invalidateQueries({ queryKey: ["get-table-list"] });
         toast.success("Room deleted successfully");
         handleClearRow();
       } else {
@@ -170,21 +152,7 @@ console.log("openModalopenModalopenModal" , openModal);
       `,
   );
 
-  
-
-  type TableBookingData = {
-    _id: string;
-    guestName: string;
-    phone: string;
-    date: string;
-    timeSlot: string;
-    numberOfGuests: number;
-    tableNumber: number;
-    status: string;
-    totalAmount: number;
-  };
-
-  const columns: MRT_ColumnDef<TableBookingData>[] = [
+  const columns: MRT_ColumnDef<MedicineData>[] = [
     {
       header: 'ID',
       accessorKey: 'SrNo',
@@ -193,63 +161,45 @@ console.log("openModalopenModalopenModal" , openModal);
       Cell: ({ row }) => row.index + 1,
     },
     {
-      header: 'Guest Name',
-      accessorKey: 'guestName',
-      enableSorting: true,
-      size: 160,
-      Cell: ({ cell }) => cell.getValue() || 'N/A',
-    },
-    {
-      header: 'Phone',
-      accessorKey: 'phone',
-      enableSorting: true,
-      size: 140,
-      Cell: ({ cell }) => cell.getValue() || 'N/A',
-    },
-    {
-      header: 'Date',
-      accessorKey: 'date',
-      enableSorting: true,
-      size: 120,
-      Cell: ({ cell }) => {
-        const value = cell.getValue();
-        return value ? moment(value as string).format("YYYY-MM-DD") : 'N/A';
-      },
-    },
-    {
-      header: 'Time Slot',
-      accessorKey: 'timeSlot',
-      enableSorting: true,
-      size: 100,
-      Cell: ({ cell }) => cell.getValue() || 'N/A',
-    },
-    {
-      header: 'No. of Guests',
-      accessorKey: 'numberOfGuests',
-      enableSorting: true,
-      size: 100,
-      Cell: ({ cell }) => cell.getValue() ?? 'N/A',
-    },
-    {
       header: 'Table Number',
       accessorKey: 'tableNumber',
       enableSorting: true,
-      size: 100,
-      Cell: ({ cell }) => cell.getValue() ?? 'N/A',
+      size: 120,
+      Cell: ({ cell }) => cell.getValue<string>() || 'N/A',
     },
     {
-      header: 'Status',
-      accessorKey: 'status',
-      enableSorting: true,
-      size: 100,
-      Cell: ({ cell }) => cell.getValue() || 'N/A',
-    },
-    {
-      header: 'Total Amount',
-      accessorKey: 'totalAmount',
+      header: 'Capacity',
+      accessorKey: 'capacity',
       enableSorting: true,
       size: 120,
-      Cell: ({ cell }) => cell.getValue() ?? 0,
+      Cell: ({ cell }) => cell.getValue<number>()?.toString() || 'N/A',
+    },
+    {
+      header: 'Description',
+      accessorKey: 'description',
+      enableSorting: true,
+      size: 200,
+      Cell: ({ cell }) => cell.getValue<string>() || 'N/A',
+    },
+    {
+      header: 'Images',
+      accessorKey: 'images',
+      enableSorting: false,
+      size: 150,
+      Cell: ({ cell }) => {
+        const images = cell.getValue<string[]>();
+        const imageUrl =
+          Array.isArray(images) && images.length > 0
+            ? images[0]
+            : 'http://www.listercarterhomes.com/wp-content/uploads/2013/11/dummy-image-square.jpg';
+        return (
+          <img
+            src={imageUrl}
+            alt="Table"
+            style={{ width: 50, height: 50, borderRadius: '4px', objectFit: 'cover' }}
+          />
+        );
+      },
     },
     {
       header: 'Actions',
@@ -265,6 +215,22 @@ console.log("openModalopenModalopenModal" , openModal);
               <MoreHorizIcon />
             </MenuButton>
             <Menu slots={{ listbox: Listbox }} className="z-99999">
+
+              <MenuItem
+                onClick={() => {
+                  navigate(`${ROUTES_CONST.HALL_BOOKING_VIEW}/${row.original._id}`)
+                }}
+              >
+                View Booking
+              </MenuItem>
+              <MenuItem
+                onClick={() => {
+                  setAddBookingModal(true);
+                  setUpdateBookingRow(row.original)
+                }}
+              >
+                Add Booking
+              </MenuItem>
               <MenuItem
                 onClick={() => {
                   setUpdateRow(row.original || undefined);
@@ -287,6 +253,8 @@ console.log("openModalopenModalopenModal" , openModal);
     },
   ];
 
+  
+
 
   const handleDelete = (id: string | null) => {
     if (!token) {
@@ -301,11 +269,11 @@ console.log("openModalopenModalopenModal" , openModal);
   }
   const handleToggelModal = () => {
     console.log("handleToggelModalhandleToggelModalhandleToggelModal");
-    
+
     setOpenModal(prv => !prv)
   }
 
-  const hendleToogleBookingModel = () => {  
+  const hendleToogleBookingModel = () => {
     setAddBookingModal(prev => !prev)
   }
 
@@ -316,7 +284,7 @@ console.log("openModalopenModalopenModal" , openModal);
   return (
     <>
       <div className="flex justify-between items-start sm:items-center mb-6 gap-3 flex-col sm:flex-row">
-        <Breadcrumb pageName="Table Booking" />
+        <Breadcrumb pageName="Table" />
         <div className="flex gap-3">
 
           {/*  */}
@@ -327,7 +295,7 @@ console.log("openModalopenModalopenModal" , openModal);
             <span>
               <AddIcon />
             </span>
-            Add Table Booking
+            Add Table
           </button>
           {/*  */}
         </div>
@@ -361,16 +329,19 @@ console.log("openModalopenModalopenModal" , openModal);
         />
       </div>
 
-      <AddMenuModal
+      <AddRoomsRegistration
         handleToggelModal={handleToggelModal}
         openModal={openModal}
         updateRow={updateRow}
         handleClearRow={handleClearRow}
-        preOrderData={preOrderData}
       />
-  
+      <AddRoomsBooking
+        handleToggelModal={hendleToogleBookingModel}
+        openModal={AddBookingModal}
+        UpdateBookingRow={UpdateBookingRow}
+      />
     </>
   )
 }
 
-export default TableBookingPage
+export default Table

@@ -30,6 +30,7 @@ import GalleryPage from '../pages/gallery/GalleryPage.tsx';
 import CategoryPage from '../pages/categories/CategoriesPage.tsx';
 import MenuPage from '../pages/menuItem/MenuPage.tsx';
 import TableBookingPage from '../pages/tableBooking/TableBookingPage.tsx';
+import Table from '../pages/Table/Table.tsx';
 
 function AllRoutes() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -54,6 +55,8 @@ function AllRoutes() {
     {path : `${ROUTES_CONST.CATEGORY}` , component : CategoryPage},
     {path : `${ROUTES_CONST.MENU}/:categoryId` , component : MenuPage},
     {path : `${ROUTES_CONST.TABLE_BOOKING}` , component : TableBookingPage},
+    {path : `${ROUTES_CONST.TABLE}` , component : Table},
+
 
 
 

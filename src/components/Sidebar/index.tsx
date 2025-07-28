@@ -93,6 +93,11 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         label: 'Table Booking',
         icon: <PersonIcon   />,
       },
+      {
+        route: ROUTES_CONST.TABLE,
+        label: 'Table',
+        icon: <PersonIcon   />,
+      },
      
     ]
 

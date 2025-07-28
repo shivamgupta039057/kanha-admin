@@ -43,6 +43,14 @@ export const API_ADD_BOOKING = "/bookings/table-booking-create"
 export const API_UPDATE_BOOKING = "/bookings/update-status"
 // export const API_DELETE_BOOKING = "/bookings/delete-item"
 
+export const API_GET_TABLE = "/tables/list"
+export const API_ADD_TABLE = "/tables/create"
+export const API_UPDATE_TABLE = "/tables/update"
+export const API_DELETE_TABLE = "/tables/delete"
+
+
+
+
 
 
 
