@@ -1,12 +1,14 @@
 import { useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { FaCity } from "react-icons/fa";
-import Logo from '../../images/logo/logo.svg';
+import { FaCity, FaUsers, FaImages, FaListAlt, FaChair } from "react-icons/fa";
+import NewLogo from '../../images/logo/new-logo.png';
 import { ROUTES_CONST } from '../../constant/routeConstant';
 import VideoCallIcon from '@mui/icons-material/VideoCall';
 import SidebarLink from '../../utils/SidebarLink';
 import AspectRatioIcon from '@mui/icons-material/AspectRatio';
-import PersonIcon from '@mui/icons-material/Person';
+import MeetingRoomIcon from '@mui/icons-material/MeetingRoom';
+import EventIcon from '@mui/icons-material/Event';
+import TableRestaurantIcon from '@mui/icons-material/TableRestaurant';
 
 interface SidebarProps {
   sidebarOpen: boolean;
@@ -66,41 +68,39 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
       {
         route: ROUTES_CONST.ROOM,
         label: 'Room',
-        icon: <PersonIcon   />,
+        icon: <MeetingRoomIcon />,
       },
       {
         route: ROUTES_CONST.BANQUET,
         label: 'Banquet',
-        icon: <PersonIcon   />,
+        icon: <EventIcon />,
       },
-        {
+      {
         route: ROUTES_CONST.GET_ALL_USER,
         label: 'User',
-        icon: <PersonIcon   />,
+        icon: <FaUsers />,
       },
       {
         route: ROUTES_CONST.GALLERY,
         label: 'Gallery',
-        icon: <PersonIcon   />,
+        icon: <FaImages />,
       },
       {
         route: ROUTES_CONST.CATEGORY,
         label: 'Category',
-        icon: <PersonIcon   />,
+        icon: <FaListAlt />,
       },
       {
         route: ROUTES_CONST.TABLE_BOOKING,
         label: 'Table Booking',
-        icon: <PersonIcon   />,
+        icon: <TableRestaurantIcon />,
       },
       {
         route: ROUTES_CONST.TABLE,
         label: 'Table',
-        icon: <PersonIcon   />,
+        icon: <FaChair />,
       },
-     
     ]
-
   }
 
   return (
@@ -110,8 +110,8 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         }`}
     >
       <div className="flex items-center justify-between gap-2 px-6 py-5.5 lg:py-6.5">
-        <NavLink to={ROUTES_CONST.HOME}>
-          <img src={Logo} alt="Logo" />
+        <NavLink to={ROUTES_CONST.HOME} className="w-full flex justify-center">
+          <span className="text-white font-bold text-xl tracking-wide">ADMIN</span>
         </NavLink>
 
         <button
