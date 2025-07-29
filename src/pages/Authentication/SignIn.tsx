@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import LogoDark from '../../images/logo/logo-dark.svg';
-import Logo from '../../images/logo/logo.svg';
+import NewLogo from '../../images/logo/kanhalogo.webp';
 import { Apiservice } from '../../service/apiservice';
 import toast from 'react-hot-toast';
 import { useFormik, FormikHelpers } from 'formik';
@@ -83,17 +82,16 @@ const SignIn: React.FC = () => {
     <>
       <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
         <div className="flex flex-wrap items-center">
-          <div className="hidden w-full xl:block xl:w-1/2">
-            <div className="py-17.5 px-26 text-center">
+          <div className="hidden w-full xl:flex xl:w-1/2 items-center justify-center min-h-[600px]">
+            <div className="py-17.5 px-26 text-center w-full">
               <Link className="mb-5.5 inline-block" to="/">
-                <img className="hidden dark:block" src={Logo} alt="Logo" />
-                <img className="dark:hidden" src={LogoDark} alt="Logo" />
+                <img src={NewLogo} alt="Logo" className="mx-auto" style={{ maxWidth: '480px', maxHeight: '260px' }} />
               </Link>
 
-              <p className="2xl:px-20">
+              {/* <p className="2xl:px-20">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit
                 suspendisse.
-              </p>
+              </p> */}
 
               <span className="mt-15 inline-block">
                 {/* SVG omitted for brevity */}
@@ -112,9 +110,9 @@ const SignIn: React.FC = () => {
 
           <div className="w-full border-stroke dark:border-strokedark xl:w-1/2 xl:border-l-2">
             <div className="w-full p-4 sm:p-12.5 xl:p-17.5">
-              <span className="mb-1.5 block font-medium">Start for free</span>
+              {/* <span className="mb-1.5 block font-medium">Start for free</span> */}
               <h2 className="mb-9 text-2xl font-bold text-black dark:text-white sm:text-title-xl2">
-                Sign In to TailAdmin
+                Admin - New Kanha Hotel
               </h2>
 
               <form onSubmit={formik.handleSubmit}>
@@ -141,12 +139,12 @@ const SignIn: React.FC = () => {
 
                 <div className="mb-6">
                   <label className="mb-2.5 block font-medium text-black dark:text-white">
-                    Re-type Password
+                    Password
                   </label>
                   <div className="relative">
                     <input
                       type="password"
-                      placeholder="Enter password of 8 character"
+                      placeholder="Enter your password"
                       {...formik.getFieldProps('password')}
                       className={`w-full rounded-lg border ${formik.touched.password && formik.errors.password ? 'border-red-500' : 'border-stroke'
                         } bg-transparent py-4 pl-6 pr-10 text-black outline-none focus:border-primary focus-visible:shadow-none dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary`}
