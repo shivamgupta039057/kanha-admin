@@ -31,6 +31,8 @@ import CategoryPage from '../pages/categories/CategoriesPage.tsx';
 import MenuPage from '../pages/menuItem/MenuPage.tsx';
 import TableBookingPage from '../pages/tableBooking/TableBookingPage.tsx';
 import Table from '../pages/Table/Table.tsx';
+import EnquiryPage from '../pages/enquery/EnquiryPage.tsx';
+import BlogPage from '../pages/blog/BlogPage.tsx';
 
 function AllRoutes() {
   const [loading, setLoading] = useState<boolean>(true);
@@ -56,6 +58,10 @@ function AllRoutes() {
     {path : `${ROUTES_CONST.MENU}/:categoryId` , component : MenuPage},
     {path : `${ROUTES_CONST.TABLE_BOOKING}` , component : TableBookingPage},
     {path : `${ROUTES_CONST.TABLE}` , component : Table},
+    {path : `${ROUTES_CONST.ENQUIRY}` , component : EnquiryPage},
+    {path : `${ROUTES_CONST.BLOG}` , component : BlogPage},
+
+
 
 
 

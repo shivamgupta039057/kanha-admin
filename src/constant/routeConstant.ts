@@ -27,6 +27,8 @@ export const ROUTES_CONST = {
   MENU : "/menu",
   TABLE_BOOKING : "/table-booking",
   TABLE : "/table",
+  ENQUIRY : "/enquiry",
+  BLOG : "/blog"
 
 
 

@@ -30,12 +30,15 @@ export const API_UPDATE_CATEGORY = "/category/update-menu-category"
 export const API_DELETE_CATEGORY = "/category/delete-menu-category"
 export const API_GET_MENU = "/menu/menu-item-by-categories"
 export const API_GET_ALL_MENU = "/menu/menu-items"
-
 export const API_ADD_MENU = "/menu/create-item"
 export const API_UPDATE_MENU = "/menu/update-item"
 export const API_DELETE_MENU = "/menu/delete-item"
 
-// pending
+export const API_GET_ALL_ENQUIRY = "/enquiry/list"
+export const API_GET_ALL_ENQUIRY_STATUS = "/enquiry/status"
+
+
+
 
 
 export const API_GET_BOOKING = "/bookings/get-table-booking"
@@ -47,6 +50,13 @@ export const API_GET_TABLE = "/tables/list"
 export const API_ADD_TABLE = "/tables/create"
 export const API_UPDATE_TABLE = "/tables/update"
 export const API_DELETE_TABLE = "/tables/delete"
+// pending
+
+
+export const API_GET_BLOG = "/blog/list-blogs"
+export const API_ADD_BLOG = "/blog/add-blog"
+export const API_UPDATE_BLOG = "/blog/update-blog"
+export const API_DELETE_BLOG = "/blog/delete-blog"
 
 
 

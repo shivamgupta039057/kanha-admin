@@ -100,6 +100,16 @@ const Sidebar = ({ sidebarOpen, setSidebarOpen }: SidebarProps) => {
         label: 'Table',
         icon: <FaChair />,
       },
+      {
+        route: ROUTES_CONST.ENQUIRY,
+        label: 'Enquiry',
+        icon: <FaChair />,
+      },
+      {
+        route: ROUTES_CONST.BLOG,
+        label: 'Blog',
+        icon: <FaChair />,
+      },
     ]
   }
 
