@@ -120,7 +120,7 @@ const AddRoomsRegistration: React.FC<ModalProps> = ({ handleToggelModal, openMod
   return (
     <Dialog open={openModal} fullWidth={true} maxWidth={'md'}>
       <DialogTitle>
-        {updateRow ? "Edit" : "Add"} Room
+        {updateRow ? "Edit" : "Add"} Banquet
       </DialogTitle>
       <IconButton
         onClick={() => {

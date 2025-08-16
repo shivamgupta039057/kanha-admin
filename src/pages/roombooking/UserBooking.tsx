@@ -53,7 +53,7 @@ const UserBooking: React.FC = () => {
     console.log("openModalopenModalopenModal", openModal);
 
     const { data: roomData } = useQuery({
-        queryKey: ["get-user-room-booking-view"],
+        queryKey: ["get-user-room-booking-view" , param.userId],
         queryFn: () =>
             Apiservice.getAuth(`${API_GET_ALL_USER_BOOKING}/${param.userId}`, token ?? ""),
         staleTime: 5 * 60 * 1000,

@@ -60,6 +60,7 @@ function AllRoutes() {
     {path : `${ROUTES_CONST.TABLE}` , component : Table},
     {path : `${ROUTES_CONST.ENQUIRY}` , component : EnquiryPage},
     {path : `${ROUTES_CONST.BLOG}` , component : BlogPage},
+    {path : ROUTES_CONST.HOME , component : Rooms},
 
 
 
@@ -81,7 +82,6 @@ function AllRoutes() {
     { path: ROUTES_CONST.DOCTOR, component: Doctors },
     { path: ROUTES_CONST.MEDICINE_NOTIFICATION, component: NotificationMedicine },
     {path : ROUTES_CONST.PATIENT , component : Patient},
-    {path : ROUTES_CONST.HOME , component : ECommerce},
     {path : `${ROUTES_CONST.VIEWPRESCRIPTION}/:prescriptionId` , component : ViewPrescription},
   ];
 

@@ -110,7 +110,7 @@ const AddMenuModal: React.FC<ModalProps> = ({ handleToggelModal, openModal, upda
   return (
     <Dialog open={openModal} fullWidth={true} maxWidth={'md'}>
       <DialogTitle>
-        {updateRow ? "Edit" : "Add"} Room
+        {updateRow ? "Edit" : "Add"} Menu Item
       </DialogTitle>
       <IconButton
         onClick={() => {

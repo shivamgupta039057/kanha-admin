@@ -7,7 +7,6 @@ interface UpdateRow {
     price: number;
     withBreakfastPrice?: number;
     capacity: number;
-    amenities: string[];
     images: string[] | null;
     description: string;
     isAvailable: boolean;
@@ -36,9 +35,6 @@ export const getValidationSchema = (updateRow: UpdateRow | undefined) =>
             .required('Capacity is required')
             .integer('Capacity must be an integer')
             .min(1, 'Capacity must be at least 1'),
-        amenities: Yup.array()
-            .of(Yup.string().trim().min(1, 'Amenity cannot be empty'))
-            .min(1, 'At least one amenity is required'),
         images: Yup.mixed()
             .test('required', 'At least one image is required', function (value) {
                 if (updateRow && updateRow.images && updateRow.images.length > 0) {

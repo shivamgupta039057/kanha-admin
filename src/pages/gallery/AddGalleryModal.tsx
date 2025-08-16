@@ -118,7 +118,8 @@ const AddGalleryModal: React.FC<ModalProps> = ({ handleToggelModal, openModal, u
   return (
     <Dialog open={openModal} fullWidth={true} maxWidth={'md'}>
       <DialogTitle>
-        {updateRow ? "Edit" : "Add"} Room
+        {updateRow ? "Edit" : "Add"} Gallery
+        {/* {updateRow ? "Edit" : "Add"} Room --- IGNORE --- */}
       </DialogTitle>
       <IconButton
         onClick={() => {

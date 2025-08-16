@@ -198,7 +198,7 @@ const AddRoomsRegistration: React.FC<ModalProps> = ({ handleToggelModal, openMod
                     Base Price (without breakfast)
                   </label>
                   <Field
-                    type="number"
+                    type="text"
                     name="price"
                     placeholder="Base Price"
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -211,7 +211,7 @@ const AddRoomsRegistration: React.FC<ModalProps> = ({ handleToggelModal, openMod
                     Price with Breakfast (optional)
                   </label>
                   <Field
-                    type="number"
+                    type="text"
                     name="withBreakfastPrice"
                     placeholder="With Breakfast Price"
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -224,7 +224,7 @@ const AddRoomsRegistration: React.FC<ModalProps> = ({ handleToggelModal, openMod
                     Capacity
                   </label>
                   <Field
-                    type="number"
+                    type="text"
                     name="capacity"
                     placeholder="Capacity"
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
@@ -234,14 +234,12 @@ const AddRoomsRegistration: React.FC<ModalProps> = ({ handleToggelModal, openMod
                 {/* Amenities Field */}
                 <div>
                   <label className="mb-3 block text-sm font-medium text-black dark:text-white">
-                    Amenities (comma separated)
+                    Amenities
                   </label>
                   <Field
                     type="text"
                     name="amenities"
                     placeholder="e.g. WiFi, TV, AC"
-                    value={Array.isArray(values.amenities) ? values.amenities.join(', ') : values.amenities}
-                    onChange={e => setFieldValue('amenities', e.target.value.split(',').map((a: string) => a.trim()).filter(Boolean))}
                     className="w-full rounded-lg border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary"
                   />
                   <ErrorMessage name="amenities" component="div" className="text-red-500 text-sm" />
