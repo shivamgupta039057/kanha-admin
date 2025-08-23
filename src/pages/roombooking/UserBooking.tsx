@@ -173,7 +173,7 @@ const UserBooking: React.FC = () => {
                 cell.getValue() || 'N/A',
         },
         {
-            header: 'Room Type Name',
+            header: 'Booking Type',
             accessorKey: 'room.roomTypeId',
             enableSorting: true,
             size: 120,
@@ -181,7 +181,7 @@ const UserBooking: React.FC = () => {
                 cell.getValue() || 'N/A',
         },
         {
-            header: 'Room No.',
+            header: 'Room/Banquet',
             accessorKey: 'room.roomNumber',
             enableSorting: true,
             size: 120,
